@@ -6,7 +6,7 @@
 from sys import stdout, platform
 from core.logger import LOG_HEADER
 
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 CONFUSABLE_URL = "http://www.unicode.org/Public/security/latest/confusables.txt"
 CONFUSABLE_FILE = "./misc/confusables.txt"
 BLACKLIST_LETTERS = "./misc/blacklist_letters.json"
@@ -18,6 +18,8 @@ OUTPUT_DIR = "./output"
 GEOLOCATION_WEBSITE = "http://freegeoip.net/json"
 ### YOUR VIRUSTOTAL API KEYs
 VT_APIKEY_LIST = []
+TIMEOUT = 5
+SOCKET_TIMEOUT_SECONDS = 1
 
 BANNER = ''' _ __  _   _ _ __  _   _  ___| |__   ___  ___| | __
 | '_ \| | | | '_ \| | | |/ __| '_ \ / _ \/ __| |/ /

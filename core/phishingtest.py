@@ -8,8 +8,7 @@ from requests import get, packages, exceptions
 from bs4 import BeautifulSoup
 from difflib import SequenceMatcher
 import re
-
-SOCKET_TIMEOUT_SECONDS = 1
+from core.common import VT_APIKEY_LIST, SOCKET_TIMEOUT_SECONDS, TIMEOUT
 
 
 class PhishingTest:
@@ -97,11 +96,11 @@ def makeRequest(url, logger, redirect=True, proxies={}):
     packages.urllib3.disable_warnings()
     try:
 
-        response = get(url, allow_redirects=redirect, verify=False, proxies=proxies, timeout=5)
+        response = get(url, allow_redirects=redirect, verify=False, proxies=proxies, timeout=TIMEOUT)
         newurl = "{}/{}".format(url, meta_redirect(response.text))
 
         while newurl:
-            response = get(newurl, allow_redirects=redirect, verify=False, proxies=proxies, timeout=5)
+            response = get(newurl, allow_redirects=redirect, verify=False, proxies=proxies, timeout=TIMEOUT)
             newurl = meta_redirect(response.text)
 
     except exceptions.ConnectionError, e:

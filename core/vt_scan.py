@@ -5,7 +5,7 @@
 
 import requests
 from ratelimit import rate_limited
-from core.common import VT_APIKEY_LIST
+from core.common import VT_APIKEY_LIST, TIMEOUT
 from requests import packages
 
 # Configurations
@@ -112,9 +112,9 @@ def makeRequest(url, params, http_method):
     params[vt_request_param_apikey] = changeApiKey()
     packages.urllib3.disable_warnings()
     if http_method == http_method_post:
-        return requests.post(url, params=params, verify=False, timeout=5)
+        return requests.post(url, params=params, verify=False, timeout=TIMEOUT)
     else:
-        return requests.get(url, params=params, verify=False, timeout=5)
+        return requests.get(url, params=params, verify=False, timeout=TIMEOUT)
 
 
 def changeApiKey():
