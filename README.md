@@ -35,8 +35,11 @@ python punydomaincheck.py -d yourdomain -s com -os com -op 443 -c 2
     -op --original_port     Original port to check for phisihing
     -f --force              Force to create alternative domain names
     -t --thread             Thread count (Default: 10)
+    -v --verbose            Be verbose (is not by default)
 
+#### Sample Puny Codes
 
+[https://www.punycoder.com](https://www.punycoder.com)
 
 Donation:
 
