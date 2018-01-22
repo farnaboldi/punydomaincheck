@@ -17,7 +17,7 @@ def update_charset(logger, letters_json):
     # Download confusables.txt
     u = urlopen(CONFUSABLE_URL)
     filesize = int(u.info().getheaders("Content-Length")[0]) / 1000
-
+    
     logger.info("[*] Downloading {}kb".format(filesize))
 
     urlretrieve(CONFUSABLE_URL, CONFUSABLE_FILE)

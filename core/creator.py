@@ -64,7 +64,8 @@ def create_alternatives(args, charset_json, logger, output_dir):
     last_percentage = 1
     header_print = False
 
-    logger.info(
+    if args.verbose:
+        logger.info(
         "[*] {}{}{} alternatives found for {}{}.{}{}".format(BLU, total_alternative_count, RST, GRE, domain_name,
                                                              args.suffix, RST))
 
@@ -73,10 +74,11 @@ def create_alternatives(args, charset_json, logger, output_dir):
 
     alternatives_file = open(alternatives_filename, 'w')
 
-    logger.info(
+    if args.verbose:
+        logger.info(
         "[*] Creating idna domain names for {} and {} character will be changed".format(domain_name, args.count))
 
-    logger.info("[*] {}".format(datetime.now()))
+        logger.info("[*] {}".format(datetime.now()))
 
     for positions in combination:
 
@@ -125,4 +127,5 @@ def create_alternatives(args, charset_json, logger, output_dir):
                                                              last_percentage, header_print)
 
     alternatives_file.close()
-    logger.info("[*] {}".format(datetime.now()))
+    if args.verbose:
+        logger.info("[*] {}".format(datetime.now()))

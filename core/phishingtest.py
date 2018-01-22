@@ -97,11 +97,11 @@ def makeRequest(url, logger, redirect=True, proxies={}):
     packages.urllib3.disable_warnings()
     try:
 
-        response = get(url, allow_redirects=redirect, verify=False, proxies=proxies, timeout=25)
+        response = get(url, allow_redirects=redirect, verify=False, proxies=proxies, timeout=5)
         newurl = "{}/{}".format(url, meta_redirect(response.text))
 
         while newurl:
-            response = get(newurl, allow_redirects=redirect, verify=False, proxies=proxies, timeout=25)
+            response = get(newurl, allow_redirects=redirect, verify=False, proxies=proxies, timeout=5)
             newurl = meta_redirect(response.text)
 
     except exceptions.ConnectionError, e:
@@ -267,6 +267,7 @@ def CheckPhishing(or_domain, or_site_port, test_domain, logger):
 
     if test_ip and or_ip:
         test_ports = checkOpenPorts(test_ip)
+        # print("or_site:",or_site,"or_url:",or_url,"or_domain:",or_domain,"test_domain:", test_domain, "IP:",test_ip,"Ports:",test_ports)
         test_urls = []
         for port in test_ports:
             test_urls.append(addProtocol(test_domain, port))

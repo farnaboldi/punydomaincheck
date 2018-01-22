@@ -12,6 +12,7 @@ from core.logger import start_logger
 from core.confusable import update_charset
 from core.domain import load_domainnames, dns_client
 from core.common import print_percentage, OUTPUT_DIR, BANNER, BLU, RST, RED, GRE, VT_APIKEY_LIST
+from core.phishingtest import makeRequest, addProtocol
 from time import sleep
 from Queue import Queue
 from os.path import getsize
@@ -27,7 +28,7 @@ def arg_parser():
     parser.add_argument("-u", "--update", action="store_true", default=False, help="Update character set")
     parser.add_argument("--debug", action="store_true", default=False, help="Enable debug logging")
     parser.add_argument("-d", "--domain", default=None, help="Domain without prefix and suffix. (google)")
-    parser.add_argument("-s", "--suffix", default=None, help="Suffix to check alternative domain names. (.com, .net)")
+    parser.add_argument("-s", "--suffix", default=None, help="Suffix to check alternative domain names. (com, net, etc)")
     parser.add_argument("-c", "--count", default=1, help="Character count to change with punycode alternative (Default: 1)")
     parser.add_argument("-os", "--original_suffix", default=None,
                         help="Original domain to check for phisihing\n"
@@ -37,6 +38,7 @@ def arg_parser():
     parser.add_argument("-f", "--force", action="store_true", default=False,
                         help="Force to calculate alternative domain names")
     parser.add_argument("-t", "--thread", default=15, help="Thread count")
+    parser.add_argument("-v", "--verbose", action="store_true", default=False, help="Be verbose")
 
     return parser.parse_args()
 
@@ -54,6 +56,10 @@ def punyDomainCheck(args, logger):
         logger.info("[-] Original port required!")
         exit()
 
+    if not args.domain:
+        logger.info("[-] Domain name required!")
+        exit()
+
     try:
 
         charset_json = load_charset()
@@ -69,13 +75,16 @@ def punyDomainCheck(args, logger):
 
     elif int(args.count) <= len(args.domain):
 
-        if not args.domain:
-            logger.info("[-] Domain name required!")
-            exit()
-
         if not args.suffix:
             logger.info("[-] Domian Suffix required!")
             exit()
+
+        if args.original_suffix:
+            original_domain = "{}.{}".format(args.domain, args.original_suffix)
+            original_url = addProtocol(original_domain, args.original_port)
+            if not makeRequest(original_url, logger):
+                logger.critical("[-] Original URL doesn't work: \"{}\".".format(original_url))
+                exit()
 
         try:
 
@@ -100,8 +109,8 @@ def punyDomainCheck(args, logger):
             create_alternatives(args=args, charset_json=charset_json, logger=logger, output_dir=output_dir)
 
         except AlternativesExists:
-
-            logger.info("[*] Alternatives already created. Skipping to next phase..")
+            if args.verbose:
+                logger.info("[*] Alternatives already created. Skipping to next phase..")
         except NoAlternativesFound:
             logger.info("[*] No alternatives found for domain \"{}\".".format(args.domain))
             exit()
@@ -112,7 +121,8 @@ def punyDomainCheck(args, logger):
         dns_thread_list = []
         threads_queue = []
         thread_count = 0
-        logger.info("[*] Every thread will resolve {}{}{} names".format(BLU, str(len(domain_name_list[0])), RST))
+        if args.verbose:
+            logger.info("[*] Every thread will resolve {}{}{} names".format(BLU, str(len(domain_name_list[0])), RST))
         # logger.info("[*] {}".format(datetime.now()))
 
         for list in domain_name_list:
@@ -129,7 +139,8 @@ def punyDomainCheck(args, logger):
 
                 thread_count += 1
 
-        logger.info("[*] DNS Client thread started. Thread count: {}{}{}".format(BLU, len(dns_thread_list), RST))
+        if args.verbose:
+            logger.info("[*] DNS Client thread started. Thread count: {}{}{}".format(BLU, len(dns_thread_list), RST))
 
         dns_client_completed = False
         query_result = []
@@ -283,12 +294,10 @@ def punyDomainCheck(args, logger):
                              "city"],
                          virustotal_result,
                          subdomains, RST])
-
-
-        logger.info(
+        if string_array:
+            logger.info(
             "[+] Punycheck result for {}{}.{}{}:\n {}".format(GRE, args.domain, args.suffix, RST,
                                                               tabulate(string_array, headers=headers_list)))
-
         dns_file.close()
 
         if getsize(dns_file_name) == 0:
@@ -300,8 +309,8 @@ def punyDomainCheck(args, logger):
 charset_json = None
 
 if __name__ == '__main__':
-    print '%s%s%s' % (BLU, BANNER, RST)
-
     args = arg_parser()
+    if args.verbose:
+        print '%s%s%s' % (BLU, BANNER, RST)
     logger = start_logger(args)
     punyDomainCheck(args, logger)

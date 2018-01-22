@@ -143,7 +143,7 @@ class dns_client(Thread):
             self.logger.debug(e)
             return None
 
-        except:
+        except Exception, e:
 
             self.logger.debug(e)
             return None

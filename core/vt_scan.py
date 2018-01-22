@@ -112,9 +112,9 @@ def makeRequest(url, params, http_method):
     params[vt_request_param_apikey] = changeApiKey()
     packages.urllib3.disable_warnings()
     if http_method == http_method_post:
-        return requests.post(url, params=params, verify=False, timeout=25)
+        return requests.post(url, params=params, verify=False, timeout=5)
     else:
-        return requests.get(url, params=params, verify=False, timeout=25)
+        return requests.get(url, params=params, verify=False, timeout=5)
 
 
 def changeApiKey():

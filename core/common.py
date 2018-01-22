@@ -58,15 +58,15 @@ def print_percentage(args, logger, current, total=0, last_percentage=0, header_p
     else:
         percentage = current
 
-    if not header_print and not args.debug:
+    if not header_print and not args.debug and args.verbose:
         stdout.write("{}Processing: {}0%".format(LOG_HEADER, BLU))
         header_print = True
         stdout.flush()
 
-    if percentage % 10 == 0 and last_percentage != percentage and percentage != 0:
+    if percentage % 10 == 0 and last_percentage != percentage and percentage != 0 and args.verbose:
 
         last_percentage = percentage
-        if args.debug:
+        if args.debug and args.verbose:
 
             logger.info("[*] Processing... {}{}{}".format(BLU, percentage, RST))
 
