@@ -46,20 +46,6 @@ def arg_parser():
 def punyDomainCheck(args, logger):
     letters_json = load_letters()
 
-    if args.original_port and not args.original_suffix:
-
-        logger.info("[-] Original suffix required!")
-        exit()
-
-    elif not args.original_port and args.original_suffix:
-
-        logger.info("[-] Original port required!")
-        exit()
-
-    if not args.domain:
-        logger.info("[-] Domain name required!")
-        exit()
-
     try:
 
         charset_json = load_charset()
@@ -70,13 +56,34 @@ def punyDomainCheck(args, logger):
             update_charset(logger, letters_json)
             charset_json = load_charset()
 
-    if args.update:
+    if not args.update and not args.domain:
+
+        logger.info("[-] Use the -h option for help.")
+        
+        exit()
+
+    elif args.update:
+
         update_charset(logger, letters_json)
 
     elif int(args.count) <= len(args.domain):
 
+        if args.original_port and not args.original_suffix:
+
+            logger.info("[-] Original suffix required!")
+            exit()
+
+        elif not args.original_port and args.original_suffix:
+
+            logger.info("[-] Original port required!")
+            exit()
+
+        if not args.domain:
+            logger.info("[-] Domain name required!")
+            exit()
+
         if not args.suffix:
-            logger.info("[-] Domian Suffix required!")
+            logger.info("[-] Domain Suffix required!")
             exit()
 
         if args.original_suffix:
