@@ -3,23 +3,26 @@
 # E-mail: anil [ . ] yksel [ @ ] gmail [ . ] com, mmkaratas92 [ @ ] gmail [ . ] com
 # URL: https://github.com/anilyuk/punydomaincheck
 
+import os
 from sys import stdout, platform
 from core.logger import LOG_HEADER
 
+MISC_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../misc/"
 VERSION = "1.0.4"
 CONFUSABLE_URL = "http://www.unicode.org/Public/security/latest/confusables.txt"
-CONFUSABLE_FILE = "./misc/confusables.txt"
-BLACKLIST_LETTERS = "./misc/blacklist_letters.json"
-WHITELIST_LETTERS = "./misc/whitelist_letters.json"
-CHARSET_FILE = "./misc/charset.json"
-LETTERS_FILE = "./misc/letters.json"
+CONFUSABLE_FILE = MISC_DIR + "confusables.txt"
+BLACKLIST_LETTERS = MISC_DIR + "blacklist_letters.json"
+WHITELIST_LETTERS = MISC_DIR + "whitelist_letters.json"
+CHARSET_FILE = MISC_DIR + "charset.json"
+LETTERS_FILE = MISC_DIR + "letters.json"
 MAX_THREAD_COUNT = 7
 OUTPUT_DIR = "./output"
 GEOLOCATION_WEBSITE = "http://freegeoip.net/json"
-### YOUR VIRUSTOTAL API KEYs
-VT_APIKEY_LIST = []
 TIMEOUT = 5
 SOCKET_TIMEOUT_SECONDS = 1
+### YOUR VIRUSTOTAL API KEYs
+VT_APIKEY_LIST = []
+
 
 BANNER = ''' _ __  _   _ _ __  _   _  ___| |__   ___  ___| | __
 | '_ \| | | | '_ \| | | |/ __| '_ \ / _ \/ __| |/ /

@@ -28,8 +28,8 @@ python punydomaincheck.py -d yourdomain -s com -os com -op 443 -c 2
 
     -u --update             Update character set
     --debug                 Enable debug logging
-    -d --domain             Domain without prefix and suffix. (google)
-    -s --suffix             Suffix to check alternative domain names. (.com, .net)
+    -d --domain             Domain without prefix and suffix (google)
+    -s --suffix             Suffix to check alternative domain names (com, net, etc)
     -c --count              Character count to change with punycode alternative
     -os --original_suffix   Original domain to check for phisihing
     -op --original_port     Original port to check for phisihing
@@ -37,11 +37,11 @@ python punydomaincheck.py -d yourdomain -s com -os com -op 443 -c 2
     -t --thread             Thread count (Default: 10)
     -v --verbose            Be verbose (is not by default)
 
-#### Sample Puny Codes
+#### Sample Puny Codes:
 
 [https://www.punycoder.com](https://www.punycoder.com)
 
-Donation:
+#### Donation:
 
 BTC: 151LxWrV1wz89j9ux5dZDWY6sGxt9oNkfJ
 
