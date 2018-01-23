@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 # Puny Domain Check v1.0
 # Author: Anil YUKSEL, Mustafa Mert KARATAS
 # E-mail: anil [ . ] yksel [ @ ] gmail [ . ] com, mmkaratas92 [ @ ] gmail [ . ] com
